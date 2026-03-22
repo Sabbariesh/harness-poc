@@ -16,6 +16,3 @@ resource "local_file" "config" {
   filename = "${path.module}/../output/config.json"
 }
 
-output "config_path" {
-  value = local_file.config.filename
-}
