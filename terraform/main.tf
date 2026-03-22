@@ -1,15 +1,21 @@
 terraform {
   required_providers {
     local = {
-      source = "hashicorp/local"
-      version = "~> 2.0"
+      source  = "hashicorp/local"
+      version = "~> 2.4"
     }
   }
 }
 
-provider "local" {}
+resource "local_file" "config" {
+  content  = jsonencode({
+    environment = "poc"
+    timestamp   = timestamp()
+    message     = "Provisioned by Terraform via Harness"
+  })
+  filename = "${path.module}/../output/config.json"
+}
 
-resource "local_file" "test" {
-  content  = "Hello from Terraform PoC"
-  filename = "output.txt"
+output "config_path" {
+  value = local_file.config.filename
 }
